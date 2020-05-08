@@ -26,7 +26,7 @@ namespace Demo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHealthChecks();
+            //services.AddHealthChecks();
             services.AddControllers();
             services.AddDiuDiu(a=> {
                 a.Address = Configuration.GetValue<string>("DiuDiuUrl");
@@ -43,7 +43,7 @@ namespace Demo
 
             //app.UseHttpsRedirection();
 
-            app.UseHealthChecks("/helth");
+            //app.UseHealthChecks("/helth");
 
             app.UseRouting();
 

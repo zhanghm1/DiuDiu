@@ -7,14 +7,12 @@ using System.Timers;
 using AutoMapper;
 using DiuDiu.Data;
 using DiuDiu.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace DiuDiu
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class ServiceController : ControllerBase
+
+    public class ServiceController 
     {
         private readonly ILogger<ServiceController> _logger;
         private IMapper _mapper;
@@ -26,16 +24,15 @@ namespace DiuDiu
             _httpClientFactory = httpClientFactory;
         }
 
-        [HttpGet]
         public List<ServiceItemDto> Get()
         {
             return _mapper.Map<List<ServiceItemDto>>(DataStore.Services);
         }
 
-        [HttpPost]
         public bool Post(ServiceEditDto serviceDto)
         {
-            if (string.IsNullOrWhiteSpace(serviceDto.Name)) {
+            if (string.IsNullOrWhiteSpace(serviceDto.Name)) 
+            {
                 return false;
             }
             if (DataStore.Services.Any(a=>a.ID== serviceDto.ID))

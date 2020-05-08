@@ -84,8 +84,6 @@ namespace DiuDiu
                         }
                     }
                     
-                    
-
                     string downPath = $"http://{service.Host}:{service.Port}" +
                         $"/{context.Request.Path.Value.Substring(gateway.UpUrlPrefix.Length + 1)}";
 
@@ -107,10 +105,7 @@ namespace DiuDiu
                     var resp = await httpClient.SendAsync(httpRequestMessage);
 
                     //处理返回
-                    foreach (var header in resp.Headers)
-                    {
-                        context.Response.Headers.Add(header.Key, header.Value.ToArray());
-                    }
+                    CloneResponseHeadersIntoContext(context, resp);
 
                     context.Response.ContentType = resp.Content.Headers.ContentType?.ToString();
                     context.Response.ContentLength = resp.Content.Headers.ContentLength;
@@ -123,6 +118,22 @@ namespace DiuDiu
                 }
             }
             
+        }
+
+
+
+        private void CloneResponseHeadersIntoContext(HttpContext context, HttpResponseMessage responseMessage)
+        {
+            foreach (var header in responseMessage.Headers)
+            {
+                context.Response.Headers[header.Key] = header.Value.ToArray();
+            }
+            foreach (var header in responseMessage.Content.Headers)
+            {
+                context.Response.Headers[header.Key] = header.Value.ToArray();
+            }
+            //这个要有，不然没有返回
+            context.Response.Headers.Remove("Transfer-Encoding");
         }
     }
 }

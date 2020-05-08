@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Demo": {
+    "Demo.Client": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "weatherforecast",
