@@ -65,7 +65,10 @@ namespace DiuDiu
         {
             CheckTimer timer = (CheckTimer)sender;
             var service = DataStore.Services.FirstOrDefault(a => a.ID == timer.Key);
+
             var httpClient = _httpClientFactory.CreateClient();
+            httpClient.Timeout = new TimeSpan(0,0, service.Check.TimeOut);
+
             Console.WriteLine($"TimerCallBack:{service.Host}:{service.Port}");
             try
             {
@@ -80,8 +83,9 @@ namespace DiuDiu
                     service.Error++;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                //
                 service.Error++;
             }
 

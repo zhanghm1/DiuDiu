@@ -89,18 +89,20 @@ namespace DiuDiu
 
                     //构造请求
                     var httpClient = _httpClientFactory.CreateClient();
+
                     var httpRequestMessage = new HttpRequestMessage()
                     {
                         Method = new HttpMethod(context.Request.Method),
                         Content = new StreamContent(context.Request.Body),
                         RequestUri = new Uri(downPath),
+                        
                     };
 
                     foreach (var header in context.Request.Headers)
                     {
                         httpRequestMessage.Content?.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
                     }
-
+                    
                     // 发送请求
                     var resp = await httpClient.SendAsync(httpRequestMessage);
 
