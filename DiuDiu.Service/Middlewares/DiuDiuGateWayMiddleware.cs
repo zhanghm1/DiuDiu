@@ -83,6 +83,10 @@ namespace DiuDiu
                         RequestUri = new Uri(downPath),
                         
                     };
+                    if (!gateway.UpMethods.Any(a=>a.ToUpper() == httpRequestMessage.Method.Method.ToUpper())) 
+                    {
+                        throw new Exception("不被允许的Method");
+                    }
 
                     foreach (var header in context.Request.Headers)
                     {

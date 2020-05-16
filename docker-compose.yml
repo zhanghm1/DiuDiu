@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  demo.service:
+    image: ${DOCKER_REGISTRY-}demoservice
+    build:
+      context: .
+      dockerfile: Demo.Service/Dockerfile
+
+  demo.userapi:
+    image: ${DOCKER_REGISTRY-}demouserapi
+    build:
+      context: .
+      dockerfile: Demo.Client/Dockerfile
+
+
+  demo.orderapi:
+    image: ${DOCKER_REGISTRY-}demoorderapi
+    build:
+      context: .
+      dockerfile: Demo.OrderClient/Dockerfile
+

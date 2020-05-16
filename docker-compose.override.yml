@@ -1,0 +1,43 @@
+version: '3.4'
+
+services:
+  demo.service:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - "5000:80"
+      - "5001:443"
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  demo.userapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+
+      - DiuDiu__DiuDiuUrl=http://192.168.0.189:5000
+      - DiuDiu__LocalUrl=http://192.168.0.189:5004
+      - DiuDiu__HelthCheck=http://192.168.0.189:5004/helth
+      - DiuDiu__ServiceName=UserApi
+    ports:
+      - "5004:80"
+      - "5005:443"
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  demo.orderapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+
+      - DiuDiu__DiuDiuUrl=http://192.168.0.189:5000
+      - DiuDiu__LocalUrl=http://192.168.0.189:5006
+      - DiuDiu__HelthCheck=http://192.168.0.189:5006/helth
+      - DiuDiu__ServiceName=OrderApi
+    ports:
+      - "5006:80"
+      - "5007:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

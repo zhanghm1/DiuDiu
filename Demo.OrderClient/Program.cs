@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Demo.UserApi
+namespace Demo.OrderApi
 {
     public class Program
     {
@@ -31,16 +31,17 @@ namespace Demo.UserApi
                     Uri uri = new Uri(localUrl);
                     DiuDiuService service = new DiuDiuService()
                     {
-                        Host= uri.Host,
-                        Port= uri.Port,
-                        Name= ServiceName,
-                        ID= ServiceName+ uri.Host+ uri.Port,
-                        Check=new DiuDiuServiceCheck() {
-                            Address= HelthCheck,
-                            ErrorTimes=5,
-                            Interval=10,
-                            StartCheckTime=5,
-                            TimeOut=5
+                        Host = uri.Host,
+                        Port = uri.Port,
+                        Name = ServiceName,
+                        ID = ServiceName + uri.Host + uri.Port,
+                        Check = new DiuDiuServiceCheck()
+                        {
+                            Address = HelthCheck,
+                            ErrorTimes = 5,
+                            Interval = 10,
+                            StartCheckTime = 5,
+                            TimeOut = 5
                         }
                     };
 
@@ -55,7 +56,6 @@ namespace Demo.UserApi
                     logger.LogError(ex, "DiuDiuService ×¢²áÊ§°Ü");
                 }
             }
-
             host.Run();
         }
 

@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Demo.UserApi
+namespace Demo.OrderApi
 {
     public class Startup
     {
@@ -26,9 +26,8 @@ namespace Demo.UserApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddHealthChecks();
             services.AddControllers();
-            services.AddDiuDiu(a=> {
+            services.AddDiuDiu(a => {
                 a.Address = Configuration["DiuDiu:DiuDiuUrl"];
             });
         }
@@ -42,8 +41,6 @@ namespace Demo.UserApi
             }
 
             //app.UseHttpsRedirection();
-
-            //app.UseHealthChecks("/helth");
 
             app.UseRouting();
 

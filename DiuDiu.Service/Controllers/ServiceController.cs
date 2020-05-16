@@ -65,7 +65,9 @@ namespace DiuDiu
         {
             CheckTimer timer = (CheckTimer)sender;
             var service = DataStore.Services.FirstOrDefault(a => a.ID == timer.Key);
-
+            if (service==null) {
+                return;
+            }
             var httpClient = _httpClientFactory.CreateClient();
             httpClient.Timeout = new TimeSpan(0,0, service.Check.TimeOut);
 
