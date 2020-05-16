@@ -13,6 +13,8 @@ namespace DiuDiu.Models
         public string UpUrlPrefix { get; set; }
         public string[] UpMethods { get; set; }
         public string ServiceName { get; set; }
+        public string ServiceSecret { get; set; }
+        
         /// <summary>
         /// 负载均衡策略  Random RoundRobin
         /// </summary>

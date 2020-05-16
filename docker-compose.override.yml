@@ -20,7 +20,7 @@ services:
       - DiuDiu__LocalUrl=http://192.168.0.189:5004
       - DiuDiu__HelthCheck=http://192.168.0.189:5004/helth
       - DiuDiu__ServiceName=UserApi
-
+      - DiuDiu__ServiceSecret=sdgfgjfghkfyzdffghs
       #
       #- DiuDiu__DiuDiuUrl=http://demo.service:80
       #- DiuDiu__LocalUrl=http://demo.userapi:80
@@ -41,6 +41,8 @@ services:
       - DiuDiu__LocalUrl=http://demo.orderapi:80
       - DiuDiu__HelthCheck=http://demo.orderapi:80/helth
       - DiuDiu__ServiceName=OrderApi
+      - DiuDiu__ServiceSecret=gildgstrtyxfhsrtjs
+
     ports:
       - "5006:80"
       - "5007:443"

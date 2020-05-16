@@ -28,12 +28,14 @@ namespace Demo.OrderApi
                     string localUrl = config["DiuDiu:LocalUrl"];
                     string HelthCheck = config["DiuDiu:HelthCheck"];
                     string ServiceName = config["DiuDiu:ServiceName"];
+                    string ServiceSecret = config["DiuDiu:ServiceSecret"];
                     Uri uri = new Uri(localUrl);
                     DiuDiuService service = new DiuDiuService()
                     {
                         Host = uri.Host,
                         Port = uri.Port,
                         Name = ServiceName,
+                        Secret= ServiceSecret,
                         ID = ServiceName + uri.Host + uri.Port,
                         Check = new DiuDiuServiceCheck()
                         {

@@ -16,6 +16,10 @@ namespace DiuDiu.Models
         /// </summary>
         public string Name { get; set; }
         /// <summary>
+        /// 验证密钥
+        /// </summary>
+        public string Secret { get; set; }
+        /// <summary>
         /// 地址  IP或者其他
         /// </summary>
         public string Host { get; set; }

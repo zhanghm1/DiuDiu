@@ -20,6 +20,10 @@ namespace DiuDiu
         /// </summary>
         public string Host { get; set; }
         /// <summary>
+        /// 验证密钥
+        /// </summary>
+        public string Secret { get; set; }
+        /// <summary>
         /// 端口
         /// </summary>
         public int Port { get; set; }

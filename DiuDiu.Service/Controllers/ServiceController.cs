@@ -35,10 +35,16 @@ namespace DiuDiu
             {
                 return false;
             }
-            if (DataStore.Services.Any(a=>a.ID== serviceDto.ID))
+            if (DataStore.Services.Any(a=>a.ID == serviceDto.ID))
             {
                 return false;
             }
+            var gateway = DataStore.Gateways.Where(a => a.ServiceName == serviceDto.Name && a.ServiceSecret == serviceDto.Secret).FirstOrDefault();
+            if(gateway==null) 
+            {
+                return false;
+            }
+
             var service =  _mapper.Map<Service>(serviceDto);
 
             DataStore.Services.Add(service);
