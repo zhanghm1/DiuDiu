@@ -32,20 +32,7 @@ namespace DiuDiu
                 string Path = context.Request.Path.Value.ToLower();
                 string[] urls = Path.Split("/");
 
-                var selectList = new List<Gateway>();
-                for (int i = 1; i <= urls.Length; i++)
-                {
-                    var  _selectList = list.Where(a => a.UpUrlArr[i] == urls[i]).ToList();
-                    if (_selectList.Count > 0)
-                    {
-                        selectList = _selectList;
-                        continue;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
+                var selectList = list.Where(a => a.UpUrlPrefix== urls[1]).ToList();
 
                 if (selectList.Count > 0)
                 {
@@ -85,7 +72,7 @@ namespace DiuDiu
                     }
                     
                     string downPath = $"http://{service.Host}:{service.Port}" +
-                        $"/{context.Request.Path.Value.Substring(gateway.UpUrlPrefix.Length + 1)}";
+                        $"/{context.Request.Path.Value.Substring(gateway.UpUrlPrefix.Length + 2)}";
 
                     //构造请求
                     var httpClient = _httpClientFactory.CreateClient();
