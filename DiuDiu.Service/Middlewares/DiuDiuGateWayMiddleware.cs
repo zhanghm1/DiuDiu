@@ -32,11 +32,10 @@ namespace DiuDiu
                 string Path = context.Request.Path.Value.ToLower();
                 string[] urls = Path.Split("/");
 
-                var selectList = list.Where(a => a.UpUrlPrefix== urls[1]).ToList();
+                Gateway gateway = list.Where(a => a.UpUrlPrefix== urls[1]).FirstOrDefault();
 
-                if (selectList.Count > 0)
+                if (gateway!=null)
                 {
-                    Gateway gateway = selectList.FirstOrDefault();
                     var services = DataStore.Services.Where(a => a.Error == 0 && a.Name == gateway.ServiceName).OrderBy(a=>a.CreateTime).ToList();
                     if(services.Count==0)
                     {
