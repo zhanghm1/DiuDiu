@@ -30,7 +30,6 @@ namespace DiuDiu
         {
             var mvcBuilder = services.AddControllers();
 
-
             services.AddDiuDiu(Configuration);
         }
 
@@ -41,10 +40,17 @@ namespace DiuDiu
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseRouting();
 
             //app.UseHttpsRedirection();
             app.UseDiuDiu();
 
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }

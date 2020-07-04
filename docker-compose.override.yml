@@ -16,9 +16,9 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
 
-      - DiuDiu__DiuDiuUrl=http://192.168.0.189:5000
-      - DiuDiu__LocalUrl=http://192.168.0.189:5004
-      - DiuDiu__HelthCheck=http://192.168.0.189:5004/helth
+      - DiuDiu__DiuDiuUrl=http://192.168.1.189:5000
+      - DiuDiu__LocalUrl=http://192.168.1.189:5004
+      - DiuDiu__HelthCheck=http://192.168.1.189:5004/helth
       - DiuDiu__ServiceName=UserApi
       - DiuDiu__ServiceSecret=sdgfgjfghkfyzdffghs
       #

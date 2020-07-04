@@ -15,31 +15,22 @@ namespace DiuDiu
 {
     public static class DependencyInjection
     {
+        /// <summary>
+        /// 添加服务依赖
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="Configuration"></param>
+        /// <returns></returns>
         public static IServiceCollection AddDiuDiu(this IServiceCollection services, IConfiguration Configuration)
         {
-
             Assembly assembly = typeof(DependencyInjection).Assembly;
 
             services.AddAutoMapper(assembly);
 
             services.AddHttpClient();
 
-
-            //mvcBuilder.AddControllersAsServices();
-
-            //mvcBuilder.AddApplicationPart(assembly);
-
-            //mvcBuilder.ConfigureApplicationPartManager(m => {
-            //    var feature = new ControllerFeature();
-            //    m.ApplicationParts.Add(new AssemblyPart(assembly));
-            //    m.PopulateFeature(feature);
-            //    services.AddSingleton(feature.Controllers.Select(t => t.AsType()).ToArray());
-            //});
-
-            services.AddScoped<ServiceController>();
-
+            //获取配置
             var Gateways = Configuration.GetSection("Gateway");
-
             DataStore.Gateways = Gateways.Get<List<Gateway>>();
 
             return services;

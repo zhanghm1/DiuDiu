@@ -7,16 +7,19 @@ using System.Timers;
 using AutoMapper;
 using DiuDiu.Data;
 using DiuDiu.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace DiuDiu
 {
-
-    public class ServiceController 
+    [ApiController]
+    [Route("[controller]")]
+    public class ServiceController : Controller
     {
         private readonly ILogger<ServiceController> _logger;
         private IMapper _mapper;
         private IHttpClientFactory _httpClientFactory;
+
         public ServiceController(ILogger<ServiceController> logger, IMapper mapper, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
@@ -24,35 +27,38 @@ namespace DiuDiu
             _httpClientFactory = httpClientFactory;
         }
 
+        [HttpGet]
         public List<ServiceItemDto> Get()
         {
             return _mapper.Map<List<ServiceItemDto>>(DataStore.Services);
         }
 
+        [HttpPost]
         public bool Post(ServiceEditDto serviceDto)
         {
-            if (string.IsNullOrWhiteSpace(serviceDto.Name)) 
+            if (string.IsNullOrWhiteSpace(serviceDto.Name))
             {
                 return false;
             }
-            if (DataStore.Services.Any(a=>a.ID == serviceDto.ID))
+            if (DataStore.Services.Any(a => a.ID == serviceDto.ID))
             {
                 return false;
             }
             var gateway = DataStore.Gateways.Where(a => a.ServiceName == serviceDto.Name && a.ServiceSecret == serviceDto.Secret).FirstOrDefault();
-            if(gateway==null) 
+            if (gateway == null)
             {
                 return false;
             }
 
-            var service =  _mapper.Map<Service>(serviceDto);
+            var service = _mapper.Map<Service>(serviceDto);
 
             DataStore.Services.Add(service);
 
-            if (service.Check!=null)
+            if (service.Check != null)
             {
                 // TODO  添加健康检查定时
-                var task = Task.Run(()=> {
+                var task = Task.Run(() =>
+                {
                     CheckTimer timer = new CheckTimer();
                     timer.Interval = service.Check.Interval * 1000;
                     timer.Elapsed += TimerCallBack;
@@ -67,15 +73,17 @@ namespace DiuDiu
 
             return true;
         }
+
         private async void TimerCallBack(object sender, ElapsedEventArgs e)
         {
             CheckTimer timer = (CheckTimer)sender;
             var service = DataStore.Services.FirstOrDefault(a => a.ID == timer.Key);
-            if (service==null) {
+            if (service == null)
+            {
                 return;
             }
             var httpClient = _httpClientFactory.CreateClient();
-            httpClient.Timeout = new TimeSpan(0,0, service.Check.TimeOut);
+            httpClient.Timeout = new TimeSpan(0, 0, service.Check.TimeOut);
 
             Console.WriteLine($"TimerCallBack:{service.Host}:{service.Port}");
             try
@@ -101,16 +109,11 @@ namespace DiuDiu
             {
                 DataStore.Services.Remove(service);
             }
-
         }
     }
 
-
-
     public class CheckTimer : Timer
-    { 
+    {
         public string Key { get; set; }
-
-
     }
 }
