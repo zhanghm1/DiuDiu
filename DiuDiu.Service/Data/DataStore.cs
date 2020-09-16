@@ -8,9 +8,14 @@ namespace DiuDiu.Data
 {
     public static class DataStore
     {
+        /// <summary>
+        /// API服务节点
+        /// </summary>
         public static List<Service> Services = new List<Service>();
 
-
+        /// <summary>
+        /// 网关集合
+        /// </summary>
         public static List<Gateway> Gateways = new List<Gateway>();
 
         /// <summary>
@@ -18,7 +23,6 @@ namespace DiuDiu.Data
         /// </summary>
         public static List<Gateway> GatewayUpUrls = new List<Gateway>();
 
-
-        public static int LoadBalancingRoundRobin = 0;
+        public static int LoadBalancingRoundRobin = 1;
     }
 }

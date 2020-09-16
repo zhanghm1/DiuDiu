@@ -15,11 +15,13 @@ namespace DiuDiu
     {
         private readonly RequestDelegate _next;
         private IHttpClientFactory _httpClientFactory;
+
         public DiuDiuGatewayMiddleware(RequestDelegate next, IHttpClientFactory httpClientFactory)
         {
             _next = next;
             _httpClientFactory = httpClientFactory;
         }
+
         public async Task Invoke(HttpContext context)
         {
             var list = DataStore.Gateways;
@@ -27,17 +29,17 @@ namespace DiuDiu
             {
                 await _next.Invoke(context);
             }
-            else 
+            else
             {
                 string Path = context.Request.Path.Value.ToLower();
                 string[] urls = Path.Split("/");
 
-                Gateway gateway = list.Where(a => a.UpUrlPrefix== urls[1]).FirstOrDefault();
+                Gateway gateway = list.Where(a => a.UpUrlPrefix == urls[1]).FirstOrDefault();
 
-                if (gateway!=null)
+                if (gateway != null)
                 {
-                    var services = DataStore.Services.Where(a => a.Error == 0 && a.Name == gateway.ServiceName).OrderBy(a=>a.CreateTime).ToList();
-                    if(services.Count==0)
+                    var services = DataStore.Services.Where(a => a.Error == 0 && a.Name == gateway.ServiceName).OrderBy(a => a.CreateTime).ToList();
+                    if (services.Count == 0)
                     {
                         throw new Exception("没有对应的服务");
                     }
@@ -50,26 +52,25 @@ namespace DiuDiu
                             var rng = new Random().Next(0, services.Count - 1);
                             service = services[rng];
                         }
-                    } 
+                    }
                     else if (gateway.LoadBalancing == LoadBalancing.RoundRobin.ToString())
                     {
                         //循环策略
-                        var  _service = services.Where(a => a.RequestNumber < DataStore.LoadBalancingRoundRobin).Take(1).FirstOrDefault();
+                        var _service = services.Where(a => a.RequestNumber < DataStore.LoadBalancingRoundRobin).Take(1).FirstOrDefault();
                         if (_service == null)
                         {
-                            services.ForEach(a => {
+                            services.ForEach(a =>
+                            {
                                 a.RequestNumber = DataStore.LoadBalancingRoundRobin;
                             });
                             DataStore.LoadBalancingRoundRobin++;
-                            _service = services.Where(a => a.RequestNumber < DataStore.LoadBalancingRoundRobin).Take(1).FirstOrDefault();
                         }
-
-                        if (_service!=null) 
+                        else
                         {
                             service = _service;
                         }
                     }
-                    
+
                     string downPath = $"http://{service.Host}:{service.Port}" +
                         $"/{context.Request.Path.Value.Substring(gateway.UpUrlPrefix.Length + 2)}";
 
@@ -81,9 +82,8 @@ namespace DiuDiu
                         Method = new HttpMethod(context.Request.Method),
                         Content = new StreamContent(context.Request.Body),
                         RequestUri = new Uri(downPath),
-                        
                     };
-                    if (!gateway.UpMethods.Any(a=>a.ToUpper() == httpRequestMessage.Method.Method.ToUpper())) 
+                    if (!gateway.UpMethods.Any(a => a.ToUpper() == httpRequestMessage.Method.Method.ToUpper()))
                     {
                         throw new Exception("不被允许的Method");
                     }
@@ -92,7 +92,7 @@ namespace DiuDiu
                     {
                         httpRequestMessage.Content?.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
                     }
-                    
+
                     // 发送请求
                     var resp = await httpClient.SendAsync(httpRequestMessage);
 
@@ -109,10 +109,7 @@ namespace DiuDiu
                     await _next.Invoke(context);
                 }
             }
-            
         }
-
-
 
         private void CloneResponseHeadersIntoContext(HttpContext context, HttpResponseMessage responseMessage)
         {
