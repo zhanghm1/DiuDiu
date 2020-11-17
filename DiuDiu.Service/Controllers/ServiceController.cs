@@ -14,7 +14,7 @@ namespace DiuDiu
 {
     [ApiController]
     [Route("[controller]")]
-    public class ServiceController : Controller
+    public class ServiceController : ControllerBase
     {
         private readonly ILogger<ServiceController> _logger;
         private IMapper _mapper;

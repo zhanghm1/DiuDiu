@@ -101,7 +101,7 @@ namespace DiuDiu
 
                     context.Response.ContentType = resp.Content.Headers.ContentType?.ToString();
                     context.Response.ContentLength = resp.Content.Headers.ContentLength;
-
+                    context.Response.StatusCode = (int)resp.StatusCode;
                     await resp.Content.CopyToAsync(context.Response.Body);
                 }
                 else

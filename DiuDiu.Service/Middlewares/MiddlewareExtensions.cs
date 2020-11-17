@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,8 +19,6 @@ namespace DiuDiu
     {
         public static IApplicationBuilder UseDiuDiu(this IApplicationBuilder builder)
         {
-            // AddRouterMap(builder);
-
             return builder.UseMiddleware<DiuDiuGatewayMiddleware>();
         }
     }
